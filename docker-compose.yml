@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  zipkin:
+    image: openzipkin/zipkin:latest
+    restart: always
+    ports:
+      - "9411:9411"
+    networks:
+      - weather-network
+  'weather-location':
+    build: ./weather-location
+    container_name: weather-location
+    ports:
+      - "8080:8080"
+    networks:
+      - weather-network
+    environment:
+      - OTEL_EXPORTER_ZIPKIN_ENDPOINT=http://zipkin:9411/api/v2/spans
+      - OTEL_SERVICE_NAME=weather-location
+    depends_on:
+      - zipkin
+  'cep-receiver':
+    build: ./cep-receiver
+    container_name: cep-receiver
+    ports:
+      - "8081:8080"
+    networks:
+      - weather-network
+    environment:
+      - OTEL_EXPORTER_ZIPKIN_ENDPOINT=http://zipkin:9411/api/v2/spans
+      - OTEL_SERVICE_NAME=cep-receiver
+    depends_on:
+      - zipkin
+networks:
+  weather-network:
+    driver: bridge

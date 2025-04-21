@@ -1,0 +1,15 @@
+### valid zipcode
+GET http://localhost:8080/location/88960000 HTTP/1.1
+Host: localhost:8080
+
+### invalid zipcode
+GET http://localhost:8080/location/5 HTTP/1.1
+Host: localhost:8080
+
+### zipcode not found
+GET http://localhost:8080/location/99999999 HTTP/1.1
+Host: localhost:8080
+
+### valid zipcode - deployed app
+GET https://weather-location-639493986028.us-central1.run.app/location/88960000 HTTP/1.1
+Host: weather-location-639493986028.us-central1.run.app

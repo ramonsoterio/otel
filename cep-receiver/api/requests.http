@@ -1,0 +1,25 @@
+## Valid request
+POST http://localhost:8081/cep
+Content-Type: application/json
+
+{"cep": "88960000"}
+###
+
+## Valid request with an invalid cep
+POST http://localhost:8080/cep
+Content-Type: application/json
+
+{
+"cep": "88960"
+}
+###
+
+## Request with invalid body
+POST http://localhost:8080/cep
+Content-Type: application/json
+
+{
+  "something": 88960000,
+  "invalid"
+}
+###
