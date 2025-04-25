@@ -107,6 +107,10 @@ func ProcessCEP(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		var clientErr errors2.Error
 		if errors.As(err, &clientErr) {
+			if clientErr.StatusCode == http.StatusNotFound {
+				http.Error(w, "can not find zipcode", clientErr.StatusCode)
+				return
+			}
 			http.Error(w, clientErr.Error(), clientErr.StatusCode)
 			return
 		}
